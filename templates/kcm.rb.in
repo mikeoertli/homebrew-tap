@@ -1,0 +1,28 @@
+class Kcm < Formula
+  desc "Manage Kubernetes contexts and profiles in your shell"
+  homepage "https://github.com/mikeoertli/kube-context-manager"
+@@SOURCE@@
+@@HEAD@@
+
+  depends_on "go" => :build
+  depends_on "fzf"
+  depends_on "kubernetes-cli"
+
+  def install
+    system "go", "build", *std_go_args, "./cmd/kcm"
+  end
+
+  def caveats
+    <<~EOS
+      Add shell integration after plugins and keybindings in ~/.zshrc:
+        eval "$(kcm init zsh)"
+      For Bash 4.4+, use kcm init bash in ~/.bashrc.
+      Run kcm settings init to customize profiles.
+    EOS
+  end
+
+  test do
+    assert_match version.to_s, shell_output("#{bin}/kcm version") unless build.head?
+    assert_match "KUBECONFIG", shell_output("#{bin}/kcm init zsh")
+  end
+end

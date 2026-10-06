@@ -1,0 +1,82 @@
+name: Check upstream releases
+
+on:
+  schedule:
+    - cron: "23 13 * * *"
+  workflow_dispatch:
+    inputs:
+      formula:
+        description: Package to update (all checks public packages)
+        type: choice
+        options: [all, krm, gprm, kcm, shell-charm-progress]
+      tag:
+        description: Stable release tag (blank finds latest tag)
+        type: string
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: upstream-releases
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Update package definitions
+        id: update
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FORMULA: ${{ inputs.formula }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          set -euo pipefail
+          if [[ ( -z "$FORMULA" || "$FORMULA" == all ) && -n "$TAG" ]]; then
+            echo "A package name is required with a release tag." >&2
+            exit 1
+          fi
+          # Keep a single pending update PR; the next run checks again after merge.
+          if [[ "$(gh pr list --head automation/releases --json number --jq 'length')" != 0 ]]; then
+            echo "An upstream update PR is already awaiting review."
+            exit 0
+          fi
+          [[ "$FORMULA" != all ]] || FORMULA=""
+          args=()
+          [[ -z "$FORMULA" ]] || args+=("$FORMULA")
+          [[ -z "$TAG" ]] || args+=(--tag "$TAG")
+          python3 scripts/update-formulas.py "${args[@]}"
+          if [[ -n "$(git status --porcelain)" ]]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Open release update pull request
+        if: steps.update.outputs.changed == 'true'
+        env:
+          # A separate token is needed so this PR triggers the bottle/test workflow.
+          GH_TOKEN: ${{ secrets.TAP_UPDATE_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$GH_TOKEN" ]]; then
+            echo "Set TAP_UPDATE_TOKEN with Contents and Pull requests write access to this tap. See README.md." >&2
+            exit 1
+          fi
+          gh auth setup-git
+          git config user.name 'homebrew-tap release bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -c automation/releases
+          git add Formula sources.json
+          git commit -m 'Update upstream releases'
+          git push --force-with-lease origin automation/releases
+          cat > /tmp/release-update.md <<'BODY'
+          Update the pinned upstream sources and archive checksums to stable release tags.
+
+          Homebrew CI builds and tests the public packages on macOS and Linux. Once the checks pass, run the **brew pr-pull** workflow with this PR number and its reviewed head SHA to publish bottles and merge the update.
+          BODY
+          gh pr create --base main --head automation/releases --title 'Update upstream releases' --body-file /tmp/release-update.md

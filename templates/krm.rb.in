@@ -1,0 +1,23 @@
+class Krm < Formula
+  desc "Monitor Kubernetes resource usage in the terminal"
+  homepage "https://github.com/mikeoertli/kube-resource-monitor"
+@@SOURCE@@
+  license "MIT"
+@@HEAD@@
+
+  depends_on "go" => :build
+
+  def install
+    module_name = File.read("go.mod")[/^module\s+(\S+)/, 1]
+    ldflags = %W[
+      -s -w
+      -X #{module_name}/internal/buildinfo.version=v#{version}
+    ]
+    system "go", "build", *std_go_args(ldflags:), "./cmd/krm"
+  end
+
+  test do
+    assert_match version.to_s, shell_output("#{bin}/krm version --short")
+    assert_match "Usage:", shell_output("#{bin}/krm --help")
+  end
+end

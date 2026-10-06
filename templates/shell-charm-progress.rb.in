@@ -1,0 +1,24 @@
+class ShellCharmProgress < Formula
+  desc "Display terminal progress from shell scripts"
+  homepage "https://github.com/mikeoertli/shell-charm-progress"
+@@SOURCE@@
+@@HEAD@@
+
+  depends_on "go" => :build
+
+  def install
+    system "go", "build", *std_go_args, "."
+  end
+
+  def caveats
+    <<~EOS
+      Load the shell helper in scripts that use the progress functions:
+        eval "$(shell-charm-progress init)"
+    EOS
+  end
+
+  test do
+    assert_match version.to_s, shell_output("#{bin}/shell-charm-progress --version") unless build.head?
+    assert_match "progress", shell_output("#{bin}/shell-charm-progress init")
+  end
+end
