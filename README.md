@@ -230,6 +230,26 @@ Linux. Other supported systems can build from source; expand the matrix as
 needed. The first source-only commit has no bottles; publish a subsequent package
 PR to produce them.
 
+### Troubleshooting Actions failures
+
+If **Check upstream releases** fails with HTTP 403 while pushing
+`automation/releases`, GitHub rejected the updater's write access. Check the
+fine-grained token stored as the tap repository's **TAP_UPDATE_TOKEN**: its
+resource owner must be `mikeoertli`, its selected repository must include
+`homebrew-tap`, and **Contents** and **Pull requests** must both have **Read and
+write** access. Also check its expiration. The Actions-only dispatch token cannot
+push formula updates. GitHub does not expose stored secret values for inspection;
+replace the secret if you are unsure which token was saved.
+
+After correcting the token, run **Check upstream releases → Run workflow** with
+`formula: all` and the tag left blank. This catches up all four projects without
+pushing their tags again.
+
+The Intel CI job installs Homebrew's lint tools from available bottles, including
+bottles built for an older macOS, to avoid building their dependencies from
+source. Package builds and tests still run on the selected Intel macOS runner.
+Failures fetching lint dependencies occur before any project is compiled.
+
 ### Local validation and template edits
 
 ```sh

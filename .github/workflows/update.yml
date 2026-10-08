@@ -73,7 +73,10 @@ jobs:
           git switch -c automation/releases
           git add Formula sources.json
           git commit -m 'Update upstream releases'
-          git push --force-with-lease origin automation/releases
+          if ! git push --force-with-lease origin automation/releases; then
+            echo "::error::Could not push the release branch. Check that TAP_UPDATE_TOKEN targets mikeoertli/homebrew-tap with Contents: Read and write and Pull requests: Read and write. The Actions-only TAP_DISPATCH_TOKEN cannot publish updates."
+            exit 1
+          fi
           cat > /tmp/release-update.md <<'BODY'
           Update the pinned upstream sources and archive checksums to stable release tags.
 
