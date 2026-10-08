@@ -1,12 +1,12 @@
 {
   "krm": {
     "repository": "mikeoertli/kube-resource-monitor",
-    "commit": "70b2b38fe036670cc93a3f110ad96cf10e31e1fa",
-    "version": "1.2.1",
-    "ref": "v1.2.1",
+    "commit": "b3fc8f4025347fc6a5ab549a98f263c3c2a86b26",
+    "version": "1.4.0",
+    "ref": "v1.4.0",
     "snapshot": false,
     "private": false,
-    "sha256": "aa15a668672878ef3db94dc90cb2a505a764672682d724fbadba8daebf3b1690",
+    "sha256": "c889284b02246436083811204e27bc7bc6d25f1594f7f32159b792908dad3ba8",
     "revision": 0
   },
   "gprm": {

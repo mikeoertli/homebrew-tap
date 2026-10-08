@@ -1,9 +1,9 @@
 class Krm < Formula
   desc "Monitor Kubernetes resource usage in the terminal"
   homepage "https://github.com/mikeoertli/kube-resource-monitor"
-  url "https://github.com/mikeoertli/kube-resource-monitor/archive/70b2b38fe036670cc93a3f110ad96cf10e31e1fa.tar.gz"
-  version "1.2.1"
-  sha256 "aa15a668672878ef3db94dc90cb2a505a764672682d724fbadba8daebf3b1690"
+  url "https://github.com/mikeoertli/kube-resource-monitor/archive/b3fc8f4025347fc6a5ab549a98f263c3c2a86b26.tar.gz"
+  version "1.4.0"
+  sha256 "c889284b02246436083811204e27bc7bc6d25f1594f7f32159b792908dad3ba8"
   license "MIT"
   head "https://github.com/mikeoertli/kube-resource-monitor.git", branch: "main"
 
