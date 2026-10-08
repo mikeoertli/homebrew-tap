@@ -48,9 +48,18 @@ jobs:
 
       - run: brew test-bot --only-setup
 
+      # Intel macOS may fall back to source builds for Homebrew's lint tools.
+      # Use the available bottles, including those built for an older macOS.
+      - name: Install Intel lint tools from bottles
+        if: matrix.os == 'macos-15-intel'
+        run: |
+          brew install --force-bottle gmp
+          brew install --force-bottle shellcheck actionlint shfmt
+
       - run: brew test-bot --only-tap-syntax
       - name: Select public packages to build
         id: packages
+        working-directory: ${{ steps.set-up-homebrew.outputs.repository-path }}
         if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
@@ -65,6 +74,7 @@ jobs:
 
       # Private-source packages are excluded by scripts/ci.py.
       - name: Build, test, and bottle changed public packages
+        working-directory: ${{ steps.set-up-homebrew.outputs.repository-path }}
         if: steps.packages.outputs.formulae != ''
         env:
           FORMULAE: ${{ steps.packages.outputs.formulae }}
@@ -79,4 +89,4 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: bottles_${{ matrix.os }}
-          path: '*.bottle.*'
+          path: '${{ steps.set-up-homebrew.outputs.repository-path }}/*.bottle.*'
