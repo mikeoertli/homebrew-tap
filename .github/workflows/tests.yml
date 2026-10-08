@@ -16,6 +16,7 @@ defaults:
 jobs:
   test-bot:
     strategy:
+      fail-fast: false
       matrix:
         os: [ macos-26, macos-15-intel ]
         include:
@@ -57,6 +58,12 @@ jobs:
           brew install --force-bottle shellcheck actionlint shfmt
 
       - run: brew test-bot --only-tap-syntax
+      - name: Set up Python for package selection
+        if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
       - name: Select public packages to build
         id: packages
         working-directory: ${{ steps.set-up-homebrew.outputs.repository-path }}
