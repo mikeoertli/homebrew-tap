@@ -178,7 +178,7 @@ an installed executable just because a project has changed.
    ```
 
 3. Review the formula and `sources.json` changes and open a tap pull request.
-4. Wait for **brew test-bot** on macOS Apple Silicon, macOS Intel, and Linux.
+4. Wait for **brew test-bot** on macOS Apple Silicon and Linux.
 5. Run **brew pr-pull** from the tap's Actions page with the PR number and the
    exact reviewed head commit SHA. This publishes bottles, updates their checksums
    in the formulas, and merges the package update. Do not merge the PR first if
@@ -225,9 +225,10 @@ permissions. Repository rules may require allowing the publishing workflow to
 push to `main`. Initial workflows cannot run until this tap is pushed to GitHub.
 
 The publishing workflow follows Homebrew's `brew tap-new` templates. Its
-platform matrix currently covers Apple Silicon macOS 26, Intel macOS 15, and
-Linux. Other supported systems can build from source; expand the matrix as
-needed. The first source-only commit has no bottles; publish a subsequent package
+platform matrix currently covers Apple Silicon macOS 26 and Linux. Intel macOS
+is excluded because Homebrew no longer supplies Intel bottles for the build and
+lint dependencies. Intel installations require building from source and a working
+Go toolchain; they are not verified by this CI matrix. The first source-only commit has no bottles; publish a subsequent package
 PR to produce them.
 
 ### Troubleshooting Actions failures
@@ -245,10 +246,10 @@ After correcting the token, run **Check upstream releases → Run workflow** wit
 `formula: all` and the tag left blank. This catches up all four projects without
 pushing their tags again.
 
-The Intel CI job installs Homebrew's lint tools from available bottles, including
-bottles built for an older macOS, to avoid building their dependencies from
-source. Package builds and tests still run on the selected Intel macOS runner.
-Failures fetching lint dependencies occur before any project is compiled.
+An Intel runner error such as `--force-bottle passed but gmp has no bottle`
+means Homebrew no longer provides the required dependency bottle. Forcing a
+bottle does not restore a missing one. The CI matrix uses Apple Silicon and
+Linux, where the dependency bottles remain available.
 
 ### Local validation and template edits
 

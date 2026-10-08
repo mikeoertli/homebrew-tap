@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ macos-26, macos-15-intel ]
+        os: [ macos-26 ]
         include:
           - os: ubuntu-latest
             container:
@@ -48,14 +48,6 @@ jobs:
       - run: brew test-bot --only-cleanup-before
 
       - run: brew test-bot --only-setup
-
-      # Intel macOS may fall back to source builds for Homebrew's lint tools.
-      # Use the available bottles, including those built for an older macOS.
-      - name: Install Intel lint tools from bottles
-        if: matrix.os == 'macos-15-intel'
-        run: |
-          brew install --force-bottle gmp
-          brew install --force-bottle shellcheck actionlint shfmt
 
       - run: brew test-bot --only-tap-syntax
       - name: Set up Python for package selection
