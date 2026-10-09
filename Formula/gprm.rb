@@ -1,9 +1,9 @@
 class Gprm < Formula
   desc "Monitor GitHub pull requests and CI in the terminal"
   homepage "https://github.com/mikeoertli/github-pr-monitor"
-  url "https://github.com/mikeoertli/github-pr-monitor/archive/ad6a15010cdb7ca48ca20e6490d65d83a344672d.tar.gz"
-  version "1.1.0"
-  sha256 "949ee86b3fbbb865a3416cda8233d492da3133f9063fc14b4d128527b541258a"
+  url "https://github.com/mikeoertli/github-pr-monitor/archive/61b58a57efb861e32b125c3adfb966641511c0b2.tar.gz"
+  version "1.2.0"
+  sha256 "6426a53f55bf61b7151d1549e02f353168482fd98e9b7dd1c88f9ca6f36a347c"
   head "https://github.com/mikeoertli/github-pr-monitor.git", branch: "main"
 
   depends_on "go" => :build

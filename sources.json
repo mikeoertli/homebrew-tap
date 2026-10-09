@@ -11,32 +11,32 @@
   },
   "gprm": {
     "repository": "mikeoertli/github-pr-monitor",
-    "commit": "ad6a15010cdb7ca48ca20e6490d65d83a344672d",
-    "version": "1.1.0",
-    "ref": "v1.1.0",
+    "commit": "61b58a57efb861e32b125c3adfb966641511c0b2",
+    "version": "1.2.0",
+    "ref": "v1.2.0",
     "snapshot": false,
     "private": false,
-    "sha256": "949ee86b3fbbb865a3416cda8233d492da3133f9063fc14b4d128527b541258a",
+    "sha256": "6426a53f55bf61b7151d1549e02f353168482fd98e9b7dd1c88f9ca6f36a347c",
     "revision": 0
   },
   "kcm": {
     "repository": "mikeoertli/kube-context-manager",
-    "commit": "9595d60ef63a940f0a92f14b14842cfbc2955445",
-    "version": "0.4.0",
-    "ref": "v0.4.0",
+    "commit": "4d83d2fbb188d8c36d7983603adeb973f3643db4",
+    "version": "0.6.0",
+    "ref": "v0.6.0",
     "snapshot": false,
     "private": false,
-    "sha256": "4947dec80d460016d61eb597071a513faf654256f5ccf65f9e8dc9c5f4ad5e8b",
+    "sha256": "bcc491270d19f6fa6f0481fa8206db8caa906a651064a21742465ed4498bfb07",
     "revision": 0
   },
   "shell-charm-progress": {
     "repository": "mikeoertli/shell-charm-progress",
-    "commit": "f1b6e42bcc2d4d1ddacf25101446ade831475494",
-    "version": "1.0.0",
-    "ref": "v1.0.0",
+    "commit": "681033c27709be3c7957185021c1a47ba8773b13",
+    "version": "1.1.0",
+    "ref": "v1.1.0",
     "snapshot": false,
     "private": false,
-    "sha256": "80f9da4d79b68393ad94b7c291d441642e42eb8cbabc87db774841414c3e6fae",
+    "sha256": "6f7347b0c9ba05566daa462b43f38704d6e1a9c894f8421a19abce39f9b86b37",
     "revision": 0
   }
 }

@@ -1,9 +1,9 @@
 class ShellCharmProgress < Formula
   desc "Display terminal progress from shell scripts"
   homepage "https://github.com/mikeoertli/shell-charm-progress"
-  url "https://github.com/mikeoertli/shell-charm-progress/archive/f1b6e42bcc2d4d1ddacf25101446ade831475494.tar.gz"
-  version "1.0.0"
-  sha256 "80f9da4d79b68393ad94b7c291d441642e42eb8cbabc87db774841414c3e6fae"
+  url "https://github.com/mikeoertli/shell-charm-progress/archive/681033c27709be3c7957185021c1a47ba8773b13.tar.gz"
+  version "1.1.0"
+  sha256 "6f7347b0c9ba05566daa462b43f38704d6e1a9c894f8421a19abce39f9b86b37"
   head "https://github.com/mikeoertli/shell-charm-progress.git", branch: "main"
 
   depends_on "go" => :build
