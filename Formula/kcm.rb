@@ -1,9 +1,9 @@
 class Kcm < Formula
   desc "Manage Kubernetes contexts and profiles in your shell"
   homepage "https://github.com/mikeoertli/kube-context-manager"
-  url "https://github.com/mikeoertli/kube-context-manager/archive/9595d60ef63a940f0a92f14b14842cfbc2955445.tar.gz"
-  version "0.4.0"
-  sha256 "4947dec80d460016d61eb597071a513faf654256f5ccf65f9e8dc9c5f4ad5e8b"
+  url "https://github.com/mikeoertli/kube-context-manager/archive/4d83d2fbb188d8c36d7983603adeb973f3643db4.tar.gz"
+  version "0.6.0"
+  sha256 "bcc491270d19f6fa6f0481fa8206db8caa906a651064a21742465ed4498bfb07"
   head "https://github.com/mikeoertli/kube-context-manager.git", branch: "main"
 
   depends_on "go" => :build
